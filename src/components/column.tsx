@@ -9,9 +9,22 @@ export const Column = ({ state }: { state: StatusTypeProps }) => {
   const [open, setOpen] = useState(false);
   const { tasks } = useTask({ state });
   const handleAddTask = useStore((store) => store.addTask);
+  const setDraggedTask = useStore((store) => store.setDraggedTask);
+  const draggedTask = useStore((store) => store.draggedTask);
+  const moveTask = useStore((store) => store.moveTask);
 
   return (
-    <div className="bg-gray-900 text-white h-[20rem] w-[33%] max-w-xs mx-2 rounded-md p-2 overflow-hidden overflow-y-scroll">
+    <div
+      className="bg-gray-900 text-white h-[20rem] w-[33%] max-w-xs mx-2 rounded-md p-2 overflow-hidden overflow-y-scroll"
+      onDragOver={(e) => {
+        e.preventDefault();
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        moveTask(draggedTask!, state);
+        setDraggedTask(undefined);
+      }}
+    >
       <div className="flex justify-between items-center mb-2">
         <p>{state}</p>
         <button

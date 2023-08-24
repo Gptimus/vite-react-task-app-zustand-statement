@@ -11,12 +11,17 @@ const statusClasses = {
 
 export const Task = ({ title }: { title: string }) => {
   const task = useStore((store) => store.tasks.find((t) => t.title === title));
-  const { deleteTask } = useStore();
 
   const classes = statusClasses[task!.state];
+  const deleteTask = useStore((store) => store.deleteTask);
+  const setDraggedTask = useStore((store) => store.setDraggedTask);
 
   return (
-    <div className="bg-white rounded-md h-[5rem] text-gray-800 p-2 flex justify-between flex-col">
+    <div
+      className="bg-white rounded-md h-[5rem] text-gray-800 p-2 flex justify-between flex-col cursor-move"
+      draggable
+      onDragStart={() => setDraggedTask(task!.title)}
+    >
       <div>{task?.title}</div>
       <div className="flex justify-between items-center">
         <div>
