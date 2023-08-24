@@ -3,7 +3,8 @@ import { useTask } from "../hooks/useTask";
 import { useStore } from "../store/store";
 import { StatusTypeProps, Task } from "./task";
 import { XCircle } from "lucide-react";
-import classNames from "classnames";
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const Column = ({ state }: { state: StatusTypeProps }) => {
   const [text, setText] = useState("");
@@ -17,9 +18,11 @@ export const Column = ({ state }: { state: StatusTypeProps }) => {
 
   return (
     <div
-      className={classNames(
-        "bg-gray-900 text-white min-h-[20rem] w-[33%] max-w-[20rem] mx-2 rounded-md p-2  border-2 border-dashed",
-        drop ? "border-purple-600" : "border-gray-900"
+      className={twMerge(
+        clsx(
+          "bg-gray-900 text-white min-h-[20rem] w-[33%] max-w-[20rem] mx-2 rounded-md p-2  border-2 border-dashed border-gray-900",
+          drop && "border-purple-600"
+        )
       )}
       onDragOver={(e) => {
         e.preventDefault();

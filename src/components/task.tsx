@@ -1,6 +1,6 @@
-import classNames from "classnames";
 import { useStore } from "../store/store";
 import { Trash2 } from "lucide-react";
+import { clsx } from "clsx";
 export type StatusTypeProps = "PLANNED" | "ONGOING" | "DONE";
 
 const statusClasses = {
@@ -30,7 +30,7 @@ export const Task = ({ title }: { title: string }) => {
           </button>
         </div>
         <div
-          className={classNames(
+          className={clsx(
             "text-xs bg-gray-400 text-white px-2 py-1 rounded-md",
             classes
           )}
