@@ -3,10 +3,12 @@ import { useTask } from "../hooks/useTask";
 import { useStore } from "../store/store";
 import { StatusTypeProps, Task } from "./task";
 import { XCircle } from "lucide-react";
+import classNames from "classnames";
 
 export const Column = ({ state }: { state: StatusTypeProps }) => {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
+  const [drop, setDrop] = useState(false);
   const { tasks } = useTask({ state });
   const handleAddTask = useStore((store) => store.addTask);
   const setDraggedTask = useStore((store) => store.setDraggedTask);
@@ -15,14 +17,23 @@ export const Column = ({ state }: { state: StatusTypeProps }) => {
 
   return (
     <div
-      className="bg-gray-900 text-white h-[20rem] w-[33%] max-w-xs mx-2 rounded-md p-2 overflow-hidden overflow-y-scroll"
+      className={classNames(
+        "bg-gray-900 text-white h-[20rem] w-[33%] max-w-xs mx-2 rounded-md p-2 overflow-hidden overflow-y-scroll border-2 border-dashed",
+        drop ? "border-purple-600" : "border-gray-900"
+      )}
       onDragOver={(e) => {
         e.preventDefault();
+        setDrop(true);
+      }}
+      onDragLeave={(e) => {
+        e.preventDefault();
+        setDrop(false);
       }}
       onDrop={(e) => {
         e.preventDefault();
         moveTask(draggedTask!, state);
         setDraggedTask(undefined);
+        setDrop(false);
       }}
     >
       <div className="flex justify-between items-center mb-2">
