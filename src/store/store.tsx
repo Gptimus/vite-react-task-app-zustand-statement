@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 import { StatusTypeProps } from "../components/task";
 
 export type TaskType = {
@@ -16,33 +16,38 @@ export type TaskStore = {
   moveTask: (title: string, state: StatusTypeProps) => void;
 };
 
-export const useStore = create<TaskStore, [["zustand/devtools", TaskStore]]>(
+export const useStore = create<
+  TaskStore,
+  [["zustand/devtools", TaskStore], ["zustand/persist", TaskStore]]
+>(
   devtools(
-    (set) => ({
-      tasks: [],
-      draggedTask: undefined,
-      addTask: (task) =>
-        set((store) => ({ tasks: [...store.tasks, task] }), false, "addTask"),
-      deleteTask: (title) =>
-        set(
-          (store) => ({
-            tasks: store.tasks.filter((t) => t.title !== title),
-          }),
-          false,
-          "deleteTask"
-        ),
-      setDraggedTask: (title) => set({ draggedTask: title }),
-      moveTask: (title, state) =>
-        set(
-          (store) => ({
-            tasks: store.tasks.map((task) =>
-              task.title === title ? { title, state } : task
-            ),
-          }),
-          false,
-          "moveTask"
-        ),
-    }),
-    { name: "TaskStore" }
+    persist(
+      (set) => ({
+        tasks: [],
+        draggedTask: undefined,
+        addTask: (task) =>
+          set((store) => ({ tasks: [...store.tasks, task] }), false, "addTask"),
+        deleteTask: (title) =>
+          set(
+            (store) => ({
+              tasks: store.tasks.filter((t) => t.title !== title),
+            }),
+            false,
+            "deleteTask"
+          ),
+        setDraggedTask: (title) => set({ draggedTask: title }),
+        moveTask: (title, state) =>
+          set(
+            (store) => ({
+              tasks: store.tasks.map((task) =>
+                task.title === title ? { title, state } : task
+              ),
+            }),
+            false,
+            "moveTask"
+          ),
+      }),
+      { name: "TaskStore" }
+    )
   )
 );

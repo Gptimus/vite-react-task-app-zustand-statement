@@ -18,7 +18,7 @@ export const Column = ({ state }: { state: StatusTypeProps }) => {
   return (
     <div
       className={classNames(
-        "bg-gray-900 text-white h-[20rem] w-[33%] max-w-xs mx-2 rounded-md p-2 overflow-hidden overflow-y-scroll border-2 border-dashed",
+        "bg-gray-900 text-white min-h-[20rem] w-[33%] max-w-[20rem] mx-2 rounded-md p-2  border-2 border-dashed",
         drop ? "border-purple-600" : "border-gray-900"
       )}
       onDragOver={(e) => {
@@ -46,8 +46,8 @@ export const Column = ({ state }: { state: StatusTypeProps }) => {
         </button>
       </div>
       <div className="flex flex-col space-y-4">
-        {tasks.map((task) => (
-          <Task key={task.title} title={task.title} />
+        {tasks.map((task, index) => (
+          <Task key={index} title={task.title} />
         ))}
       </div>
       {open && (

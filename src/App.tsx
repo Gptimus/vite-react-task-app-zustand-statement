@@ -2,7 +2,7 @@ import { Column } from "./components/column";
 
 function App() {
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="flex justify-center mt-7">
       <Column state="PLANNED" />
       <Column state="ONGOING" />
       <Column state="DONE" />
